@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Kallias.Bot;
 
 namespace example
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            // Here will be some example code
-            throw new NotImplementedException();
+            var bot = new Bot();
+
+            await bot.StartUp();
         }
     }
 }
