@@ -5,7 +5,7 @@ using Discord.WebSocket;
 
 namespace Kallias.Bot
 {
-    public internal class ReactionHandler
+    internal class ReactionHandler
     {
         private readonly DiscordSocketClient _client;
 

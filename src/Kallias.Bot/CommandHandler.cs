@@ -8,7 +8,7 @@ namespace Kallias.Bot {
     /** This code was successfully stolen from:
      **     https://docs.stillu.cc/guides/commands/intro.html
      **/
-    public internal class CommandHandler
+    internal class CommandHandler
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
