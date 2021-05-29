@@ -10,8 +10,8 @@ namespace Kallias.Game
     /// </summary>
     public interface IGame : ICloneable
     {   
-        IEnumerable<Move> Moves { get; }
-
+        List<Move> Moves { get; }
+        
         void MakeMove(Move move);
 
         Canvas Render();
