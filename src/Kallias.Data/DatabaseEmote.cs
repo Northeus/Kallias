@@ -7,27 +7,27 @@ using Newtonsoft.Json;
 
 namespace Kallias.Data
 {
-    public static class DatabaseEmote
+    public static class DatabaseEmote<T> where T : Enum
     {
-        public static readonly string _databasePath = //TODO make private
+        private static readonly string _databasePath =
             Assembly.GetExecutingAssembly().Location
             + $"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}.."
             + $"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}.."
             + $"{Path.DirectorySeparatorChar}Assets{Path.DirectorySeparatorChar}emotes.json";
 
-        private static Dictionary<Emote, string> _database;
+        private static Dictionary<T, string> _database;
 
-        public static Dictionary<Emote, string> Database
+        public static Dictionary<T, string> Database
         {
             get => (_database ??= LoadDatabase()); 
             
             set => _database = value;
         }
 
-        private static Dictionary<Emote, string> LoadDatabase()
+        private static Dictionary<T, string> LoadDatabase()
             => JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(_databasePath))
                 .ToDictionary(
-                    kvp => (Emote) Enum.Parse(typeof(Emote), kvp.Key, true),
+                    kvp => (T) Enum.Parse(typeof(T), kvp.Key, true),
                     kvp => kvp.Value
                 );
     }
