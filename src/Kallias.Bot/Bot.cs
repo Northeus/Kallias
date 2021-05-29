@@ -11,10 +11,15 @@ namespace Kallias.Bot
 {
     public class Bot
     {
-        private readonly string TokenPath = Assembly.GetExecutingAssembly().Location
+        private static readonly string TokenPath = Assembly.GetExecutingAssembly().Location
             + $"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}"
             + $"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}"
             + "token.txt";
+
+        private IGame _game;
+
+        public Bot(IGame game)
+            => _game = game;
 
         public async Task StartUp()
         {
