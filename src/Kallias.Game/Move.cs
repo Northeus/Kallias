@@ -2,11 +2,11 @@ using Discord;
 
 namespace Kallias.Game
 {
-    public struct Move
+    public class Move
     {
-        //public Move(emote);
+        public Move(string emote)
+            => Emote = new Emoji(emote);
 
-
-        //public 
+        public IEmote Emote { get; } 
     }
 }
