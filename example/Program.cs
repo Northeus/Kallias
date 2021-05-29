@@ -8,7 +8,7 @@ namespace example
     {
         public static async Task Main(string[] args)
         {
-            var bot = new Bot();
+            var bot = new Bot(new Game());
 
             await bot.StartUp();
         }
