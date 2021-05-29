@@ -16,10 +16,8 @@ namespace Kallias.Bot
             + $"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}"
             + "token.txt";
 
-        private IGame _game;
-
         public Bot(IGame game)
-            => _game = game;
+            => GameContext.Game = game;
 
         public async Task StartUp()
         {
