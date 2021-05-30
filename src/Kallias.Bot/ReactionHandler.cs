@@ -19,7 +19,6 @@ namespace Kallias.Bot
             Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction
         )
         {
-            // Don't process the command if it was a system message
             var     msg = message.HasValue
                         ? message.Value
                         : await channel.GetMessageAsync(message.Id);

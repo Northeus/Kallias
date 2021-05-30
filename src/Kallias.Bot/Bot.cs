@@ -22,7 +22,6 @@ namespace Kallias.Bot
         public async Task StartUp()
         {
             var client = new DiscordSocketClient();
-            var commandService = new CommandService();
 
             client.Log += Log;
 
@@ -31,7 +30,7 @@ namespace Kallias.Bot
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
 
-            var commandHandler = new CommandHandler(client, commandService);
+            var commandHandler = new CommandHandler(client);
             
             await commandHandler.SetUp();
 

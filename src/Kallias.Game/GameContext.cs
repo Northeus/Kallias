@@ -17,5 +17,8 @@ namespace Kallias.Game
         }
         
         public IGame Game { get; set; }
+
+        public IGame CreateGame()
+            => (IGame) Game.Clone();
     }
 }
