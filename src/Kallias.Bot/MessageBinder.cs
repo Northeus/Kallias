@@ -3,7 +3,7 @@ using Discord.WebSocket;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
-
+using Kallias.Game;
 
 namespace Kallias.Bot {
     internal class CommandHandler
@@ -37,9 +37,16 @@ namespace Kallias.Bot {
         private static bool IsCreateCommand(SocketMessage message)
             => CommandValidator.IsMatch(message.Content);
 
-        private async Task CreateNewGame(SocketMessage message)
-            => DatabaseGames.Insert(
-                (await message.Channel.SendMessageAsync("hola")).Id
+        private async Task CreateNewGame(SocketMessage messageCommand)
+        {
+            var game = GameContext.Instance.CreateGame();
+
+            var messageGame = await messageCommand.Channel.SendMessageAsync((string) game.Render());
+
+            DatabaseGames.Insert(
+                messageGame.Id,
+                game
             );
+        } 
     }
 }

@@ -10,7 +10,7 @@ namespace Kallias.Bot
         public static bool TryGet(ulong id, out IGame game)
             => _database.TryGetValue(id, out game);
 
-        public static void Insert(ulong id)
-            => _database[id] = GameContext.Instance.CreateGame();
+        public static void Insert(ulong id, IGame game)
+            => _database[id] = game;
     }
 }
