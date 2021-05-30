@@ -6,7 +6,12 @@ namespace example
 {
     public class Game : IGame
     {
-        public List<Move> Moves => new List<Move>();
+        public List<Move> Moves => new List<Move>()
+        {
+            new Move("🟥"),
+            new Move("🟩"),
+            new Move("🟦")
+        };
 
         public void MakeMove(Move move)
         {
@@ -14,7 +19,7 @@ namespace example
         }
 
         public Canvas Render()
-            => new Canvas(new string[0]);
+            => new Canvas(new string[1] { "RGB" });
 
         public object Clone()
             => new Game();

@@ -45,7 +45,7 @@ namespace Kallias.Bot {
 
             var messageGame = await messageCommand.Channel.SendMessageAsync((string) game.Render());
 
-            AddReactions(messageGame, game);
+            await AddReactionsAsync(messageGame, game);
 
             DatabaseGames.Insert(
                 messageGame.Id,
@@ -53,10 +53,13 @@ namespace Kallias.Bot {
             );
         } 
 
-        private static void AddReactions(RestUserMessage message, IGame game)
+        // Ensure order of reactions!
+        private static async Task AddReactionsAsync(RestUserMessage message, IGame game)
         {
-            game.Moves
-                .Select(async move => await message.AddReactionAsync(move.Emote));
+            foreach (var move in game.Moves)
+            {
+                await message.AddReactionAsync(move.Emote);
+            }
         }
     }
 }
