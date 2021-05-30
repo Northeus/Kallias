@@ -19,38 +19,31 @@ namespace Kallias.Bot
         public void SetUp()
             =>_client.ReactionAdded += HandleReactionAsync;
 
-        private async Task HandleReactionAsync(
+        private Task HandleReactionAsync(
             Cacheable<IUserMessage, ulong> messageCached, ISocketMessageChannel channel, SocketReaction reaction
         )
         {
-            var message = await GetMessageAsync(messageCached, channel);
-
-            if (! ShouldProcess(message, reaction))
+            if (! ShouldProcess(messageCached, reaction))
             {
-                return;
+                return Task.CompletedTask;
             }
             
             ThreadPool.QueueUserWorkItem(new WaitCallback(async delegate(object state)
             {
-                await GameFactory.Instance.ProcessReactionAsync(message.Id, reaction);
+                await GameFactory.Instance.ProcessReactionAsync(messageCached.Id, reaction);
 
-                await message.RemoveReactionAsync(reaction.Emote, reaction.UserId);
+                DatabaseGames.TryGet(messageCached.Id, out var gameContext);
+
+                await gameContext.Message.RemoveReactionAsync(reaction.Emote, reaction.UserId);
             }), null);
+
+            return Task.CompletedTask;
         }
-
-        private static bool IsHandledGame(IMessage message)
-            => message != null && DatabaseGames.TryGet(message.Id, out _);
-
-        private static async Task<IMessage> GetMessageAsync(
-            Cacheable<IUserMessage, ulong> messageCached, ISocketMessageChannel channel
-        ) => messageCached.HasValue
-                ? messageCached.Value
-                : await channel.GetMessageAsync(messageCached.Id);
 
         private bool IsInitialReaction(SocketReaction reaction)
             => reaction.UserId == _client.CurrentUser.Id;
 
-        private bool ShouldProcess(IMessage message, SocketReaction reaction)
-            => IsHandledGame(message) && ! IsInitialReaction(reaction);
+        private bool ShouldProcess(Cacheable<IUserMessage, ulong> messageCached, SocketReaction reaction)
+            => ! IsInitialReaction(reaction) && DatabaseGames.Contains(messageCached.Id);
     }
 }

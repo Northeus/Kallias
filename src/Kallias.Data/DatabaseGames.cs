@@ -13,5 +13,8 @@ namespace Kallias.Data
 
         public static void Insert(ulong messageId, IGame game, RestUserMessage message)
             => _database[messageId] = new GameContext(game, message);
+
+        public static bool Contains(ulong messageId)
+            => _database.ContainsKey(messageId);
     }
 }

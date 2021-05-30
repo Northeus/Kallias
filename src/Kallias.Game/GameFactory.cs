@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
@@ -35,9 +36,9 @@ namespace Kallias.Game
         {
             var move = FindMove(reaction.Emote);
 
-            var gotContext = DatabaseGames.TryGet(messageId, out var gameContext);
+            DatabaseGames.TryGet(messageId, out var gameContext);
 
-            if (move == null || ! gotContext)
+            if (move == null || gameContext?.TryLock() != true)
             {
                 return;
             }
@@ -47,6 +48,8 @@ namespace Kallias.Game
             game.MakeMove(move);
 
             await message.ModifyAsync(msg => msg.Content = (string) game.Render());
+
+            gameContext.Unlock();
         }
     }
 }
