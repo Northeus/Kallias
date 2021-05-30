@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Kallias.Game;
 using Kallias.Game.Graphic;
 
-namespace example
+namespace exampleSquare
 {
     public class Game : IGame
     {

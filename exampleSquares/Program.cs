@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Kallias.Bot;
 
-namespace example
+namespace exampleSquare
 {
     public class Program
     {
