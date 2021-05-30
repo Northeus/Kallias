@@ -17,7 +17,7 @@ namespace Kallias.Bot
             + "token.txt";
 
         public Bot(IGame game)
-            => GameContext.Instance.Game = game;
+            => GameFactory.Instance.Game = game;
 
         public async Task StartUp()
         {

@@ -14,3 +14,4 @@ Also add database of emotes to '\Assets\emotes.json' in your source folder.
 ## Todo
   * Moves separated for states.
   * Acces only own games.
+  * Might be problem with quickly adding & removing reactions.

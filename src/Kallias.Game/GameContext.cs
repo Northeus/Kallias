@@ -1,24 +1,15 @@
+using Discord;
+using Discord.Rest;
+
 namespace Kallias.Game
 {
     internal class GameContext
     {
-        private static GameContext _instance;
+        public GameContext(IGame game, RestUserMessage message)
+            => (Game, Message) = (game, message);
 
-        private GameContext()
-        {
+        public IGame Game { get; }
 
-        }
-
-        public static GameContext Instance
-        {
-            get => (_instance ??= new GameContext());
-
-            set => _instance = value;
-        }
-        
-        public IGame Game { get; set; }
-
-        public IGame CreateGame()
-            => (IGame) Game.Clone();
+        public RestUserMessage Message { get; }
     }
 }

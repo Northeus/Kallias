@@ -6,6 +6,7 @@ using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
 using Kallias.Game;
+using Kallias.Data;
 
 namespace Kallias.Bot {
     internal class CommandHandler
@@ -41,7 +42,7 @@ namespace Kallias.Bot {
 
         private static async Task CreateNewGameAsync(SocketMessage messageCommand)
         {
-            var game = GameContext.Instance.CreateGame();
+            var game = GameFactory.Instance.CreateGame();
 
             var messageGame = await messageCommand.Channel.SendMessageAsync((string) game.Render());
 
@@ -49,7 +50,8 @@ namespace Kallias.Bot {
 
             DatabaseGames.Insert(
                 messageGame.Id,
-                game
+                game,
+                messageGame
             );
         } 
 
