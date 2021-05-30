@@ -29,15 +29,15 @@ namespace Kallias.Game
 
         public Move FindMove(IEmote emote)
             => Game.Moves
-                .FirstOrDefault(move => move.Emote == emote);
+                .FirstOrDefault(move => move.Emote.Name == emote.Name);
 
         public async Task ProcessReactionAsync(ulong messageId, SocketReaction reaction)
         {
             var move = FindMove(reaction.Emote);
 
-            var gotGame = DatabaseGames.TryGet(messageId, out var gameContext);
+            var gotContext = DatabaseGames.TryGet(messageId, out var gameContext);
 
-            if (move == null || ! gotGame)
+            if (move == null || ! gotContext)
             {
                 return;
             }
@@ -46,7 +46,7 @@ namespace Kallias.Game
 
             game.MakeMove(move);
 
-            await message.ModifyAsync(msg => msg.Content = (string) gameContext.Game.Render());
+            await message.ModifyAsync(msg => msg.Content = (string) game.Render());
         }
     }
 }
