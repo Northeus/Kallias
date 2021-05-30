@@ -32,7 +32,7 @@ namespace Kallias.Bot
 
             var commandHandler = new CommandHandler(client);
             
-            await commandHandler.SetUp();
+            commandHandler.SetUp();
 
             var reactionHandler = new ReactionHandler(client);
             

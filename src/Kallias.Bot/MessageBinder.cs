@@ -1,8 +1,10 @@
-using Discord.Commands;
-using Discord.WebSocket;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using Discord.Commands;
+using Discord.Rest;
+using Discord.WebSocket;
 using Kallias.Game;
 
 namespace Kallias.Bot {
@@ -15,7 +17,7 @@ namespace Kallias.Bot {
         public CommandHandler(DiscordSocketClient client)
             => _client = client;
         
-        public async Task SetUp()
+        public void SetUp()
             => _client.MessageReceived += HandleCommandAsync;
 
         private async Task HandleCommandAsync(SocketMessage message)
@@ -26,7 +28,7 @@ namespace Kallias.Bot {
                 return;
             }
 
-            await CreateNewGame(message);
+            await CreateNewGameAsync(message);
 
             await message.DeleteAsync();
         }
@@ -37,16 +39,24 @@ namespace Kallias.Bot {
         private static bool IsCreateCommand(SocketMessage message)
             => CommandValidator.IsMatch(message.Content);
 
-        private async Task CreateNewGame(SocketMessage messageCommand)
+        private static async Task CreateNewGameAsync(SocketMessage messageCommand)
         {
             var game = GameContext.Instance.CreateGame();
 
             var messageGame = await messageCommand.Channel.SendMessageAsync((string) game.Render());
+
+            AddReactions(messageGame, game);
 
             DatabaseGames.Insert(
                 messageGame.Id,
                 game
             );
         } 
+
+        private static void AddReactions(RestUserMessage message, IGame game)
+        {
+            game.Moves
+                .Select(async move => await message.AddReactionAsync(move.Emote));
+        }
     }
 }
