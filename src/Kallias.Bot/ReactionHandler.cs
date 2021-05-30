@@ -16,26 +16,27 @@ namespace Kallias.Bot
             =>_client.ReactionAdded += HandleReactionAsync;
 
         private async Task HandleReactionAsync(
-            Cacheable<IUserMessage, ulong> message, ISocketMessageChannel channel, SocketReaction reaction
+            Cacheable<IUserMessage, ulong> messageCached, ISocketMessageChannel channel, SocketReaction reaction
         )
         {
-            var     msg = message.HasValue
-                        ? message.Value
-                        : await channel.GetMessageAsync(message.Id);
+            var message = messageCached.HasValue
+                        ? messageCached.Value
+                        : await channel.GetMessageAsync(messageCached.Id);
 
-            // TODO process only if message is game
-
-/*
-            if (msg == null
-                || msg.Author.Id != _client.CurrentUser.Id
-                || channel.Name != Channels.Events
-                || reaction.Emote.Name != _reactionEmote.Name
+            if (! IsHandledGame(message)
+                || IsInitialReaction(reaction)
             )
             {
                 return;
             }
-*/
-            await msg.RemoveReactionAsync(reaction.Emote, reaction.UserId);
+
+            await message.RemoveReactionAsync(reaction.Emote, reaction.UserId);
         }
+
+        private static bool IsHandledGame(IMessage message)
+            => message != null && DatabaseGames.TryGet(message.Id, out _);
+
+        private bool IsInitialReaction(SocketReaction reaction)
+            => reaction.UserId == _client.CurrentUser.Id;
     }
 }
