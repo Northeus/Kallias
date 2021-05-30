@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Kallias.Data
 {
-    public static class DatabaseEmote<T> where T : Enum
+    public static class DatabaseEmotes<TKey> where TKey : Enum
     {
         private static readonly string _databasePath =
             Assembly.GetExecutingAssembly().Location
@@ -15,19 +15,22 @@ namespace Kallias.Data
             + $"{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}.."
             + $"{Path.DirectorySeparatorChar}Assets{Path.DirectorySeparatorChar}emotes.json";
 
-        private static Dictionary<T, string> _database;
+        private static Dictionary<TKey, string> _database;
 
-        public static Dictionary<T, string> Database
+        public static Dictionary<TKey, string> Database
         {
             get => (_database ??= LoadDatabase()); 
             
             set => _database = value;
         }
 
-        private static Dictionary<T, string> LoadDatabase()
+        public static bool TryGet(TKey key, out string emoji)
+            => Database.TryGetValue(key, out emoji);
+
+        private static Dictionary<TKey, string> LoadDatabase()
             => JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(_databasePath))
                 .ToDictionary(
-                    kvp => (T) Enum.Parse(typeof(T), kvp.Key, true),
+                    kvp => (TKey) Enum.Parse(typeof(TKey), kvp.Key, true),
                     kvp => kvp.Value
                 );
     }
