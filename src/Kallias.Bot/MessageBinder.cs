@@ -1,5 +1,7 @@
+using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Discord.Commands;
@@ -19,19 +21,19 @@ namespace Kallias.Bot {
             => _client = client;
         
         public void SetUp()
-            => _client.MessageReceived += HandleCommandAsync;
+            => _client.MessageReceived += HandleCommand;
 
-        private async Task HandleCommandAsync(SocketMessage message)
+        private Task HandleCommand(SocketMessage message)
         {
             if (IsSystemMessage(message)
                 || ! IsCreateCommand(message))
             {
-                return;
+                return Task.CompletedTask;
             }
 
-            await CreateNewGameAsync(message);
+            ProcessCommand(message);
 
-            await message.DeleteAsync();
+            return Task.CompletedTask;
         }
 
         private static bool IsSystemMessage(SocketMessage message)
@@ -39,6 +41,14 @@ namespace Kallias.Bot {
 
         private static bool IsCreateCommand(SocketMessage message)
             => CommandValidator.IsMatch(message.Content);
+
+        private static bool ProcessCommand(SocketMessage message)
+            => ThreadPool.QueueUserWorkItem(new WaitCallback(async delegate(object state)
+            {
+                await CreateNewGameAsync(message);
+
+                await message.DeleteAsync();
+            }), null);
 
         private static async Task CreateNewGameAsync(SocketMessage messageCommand)
         {

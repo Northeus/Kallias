@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -23,12 +25,17 @@ namespace Kallias.Bot
         {
             var message = await GetMessageAsync(messageCached, channel);
 
-            if (ShouldProcess(message, reaction))
+            if (! ShouldProcess(message, reaction))
+            {
+                return;
+            }
+            
+            ThreadPool.QueueUserWorkItem(new WaitCallback(async delegate(object state)
             {
                 await GameFactory.Instance.ProcessReactionAsync(message.Id, reaction);
 
                 await message.RemoveReactionAsync(reaction.Emote, reaction.UserId);
-            }
+            }), null);
         }
 
         private static bool IsHandledGame(IMessage message)
