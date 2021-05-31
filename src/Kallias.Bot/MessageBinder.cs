@@ -61,7 +61,8 @@ namespace Kallias.Bot {
             DatabaseGames.Insert(
                 messageGame.Id,
                 game,
-                messageGame
+                messageGame,
+                messageCommand.Author.Id
             );
         } 
 

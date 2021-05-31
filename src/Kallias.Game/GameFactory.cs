@@ -38,7 +38,7 @@ namespace Kallias.Game
 
             DatabaseGames.TryGet(messageId, out var gameContext);
 
-            if (move == null || gameContext?.TryLock() != true)
+            if (move == null || gameContext.AuthorId != reaction.UserId || gameContext?.TryLock() != true)
             {
                 return;
             }

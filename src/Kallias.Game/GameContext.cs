@@ -8,12 +8,14 @@ namespace Kallias.Game
     {
         private int _locked;
 
-        public GameContext(IGame game, RestUserMessage message)
-            => (Game, Message) = (game, message);
+        public GameContext(IGame game, RestUserMessage message, ulong authorId)
+            => (Game, Message, AuthorId) = (game, message, authorId);
 
         public IGame Game { get; }
 
         public RestUserMessage Message { get; }
+
+        public ulong AuthorId { get; }
 
         public bool TryLock()
             => Interlocked.Exchange(ref _locked, 1) == 0;

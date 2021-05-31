@@ -34,7 +34,7 @@ namespace Kallias.Bot
 
                 DatabaseGames.TryGet(messageCached.Id, out var gameContext);
 
-                await gameContext.Message.RemoveReactionAsync(reaction.Emote, reaction.UserId);
+                await gameContext?.Message.RemoveReactionAsync(reaction.Emote, reaction.UserId);
             }), null);
 
             return Task.CompletedTask;
