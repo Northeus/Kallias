@@ -23,7 +23,7 @@ namespace game.Character
 
         private bool TryMove(int x, int y)
         {
-            if (_world.IsValidCoords(x, y) && _world.TileMap[x, y] == Tile.Grass)
+            if (_world.IsValidCoords(x, y) && _world.TileMap[y, x] == Tile.Grass)
             {
                 Position = (x, y);
 
