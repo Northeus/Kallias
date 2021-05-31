@@ -35,10 +35,10 @@ namespace exampleSquare
 
         // Create simple square from emoji
         private Canvas Fill(string filler)
-            => new Canvas(new string[2]
+            => new Canvas(new string[2][]
             {
-                $"{filler}{filler}",
-                $"{filler}{filler}",
+                new string[2] { filler, filler },
+                new string[2] { filler, filler }
             });
 
         // Get emoji according to current state 
