@@ -3,39 +3,29 @@ using System.Collections.Generic;
 using Kallias.Data;
 using Kallias.Game;
 using Kallias.Game.Graphic;
+using game.Environment;
+using game.Render;
 
-namespace exampleSquare
+namespace game
 {
     public class Game : IGame
     {
-        public Color CurrentColor = Color.Default;
+        private World _world = new World(7, 5);
 
         public List<Move> Moves => new List<Move>()
         {
-            new Move("🟥", (int) Color.Red),
-            new Move("🟩", (int) Color.Green),
-            new Move("🟦", (int) Color.Blue)
+            // new Move("🟥", (int) Color.Red),
         };
 
         public void MakeMove(Move move)
-            => CurrentColor = (Color) move.Id;
+        {
+
+        }
 
         public Canvas Render()
-            => Fill(GetFiller());
+            => WorldRenderer.GetCanvas(_world);
 
         public object Clone()
             => new Game();
-
-        private Canvas Fill(string filler)
-            => new Canvas(new string[2]
-            {
-                $"{filler}{filler}",
-                $"{filler}{filler}",
-            });
-
-        private string GetFiller()
-            => DatabaseEmotes<Color>.TryGet(CurrentColor, out string emoji)
-                ? emoji
-                : "(Not Found)";
     }
 }
