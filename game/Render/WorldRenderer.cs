@@ -1,4 +1,3 @@
-using static System.Environment;
 using System.Linq;
 using System.Collections.Generic;
 using Kallias.Data;
@@ -11,18 +10,11 @@ namespace game.Render
     public static class WorldRenderer
     {
         public static Canvas GetCanvas(World world)
-            => new Canvas(GetRows(world));
-
-        private static IEnumerable<string> GetRows(World world)
-            => GetSpriteMap(world.TileMap)
+            => new Canvas(GetSpriteMap(world.TileMap)
                 .Map((Sprite sprite) => DatabaseEmotes<Sprite>.Database[sprite])
                 .GetAllRows()
-                .Select(row => row
-                    .Aggregate(
-                        "",
-                        (baseString, spriteString) => baseString + spriteString
-                ));
-        
+            );
+
         private static Sprite[,] GetSpriteMap(Tile[,] tilemap)
             => tilemap.Map(FindSprite);
 

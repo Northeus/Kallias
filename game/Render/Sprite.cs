@@ -8,6 +8,10 @@ namespace game.Render
         Wood,
         BlackSquare,
         GreenSquare,
-        BrownSquare
+        BrownSquare,
+        MoveUp,
+        MoveDown,
+        MoveLeft,
+        MoveRight
     }
 }

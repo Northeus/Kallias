@@ -8,5 +8,10 @@
  
     "blackSquare": "⬛",
     "greenSquare": "🟩",
-    "brownSquare": "🟫"
+    "brownSquare": "🟫",
+
+    "moveUp": "⬆️",
+    "moveDown": "⬇️",
+    "moveLeft": "⬅️",
+    "moveRight": "➡️"
 }
