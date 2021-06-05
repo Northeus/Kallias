@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Kallias.Bot;
 
 namespace exampleSquare
@@ -8,8 +7,10 @@ namespace exampleSquare
     {
         public static async Task Main(string[] args)
         {
+            // Load our game instance into bot
             var bot = new Bot(new Game());
 
+            // Run bot
             await bot.StartUp();
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Kallias.Data;
 using Kallias.Game;
@@ -7,11 +6,11 @@ using Kallias.Game.Graphic;
 // For easier presentation is this code in single file.
 namespace exampleSquare
 {
-    // Example of eimple game, which just change color acording to reaction.
+    // Example of simple game, which just change color according to reaction.
     public class Game : IGame
     {
-        // Create some bacis state machine
-        public Color CurrentColor = Color.Default;
+        // Create some basic state machine
+        private Color _currentColor = Color.Default;
 
         // Create some basic moves
         public List<Move> Moves => new List<Move>()
@@ -23,9 +22,9 @@ namespace exampleSquare
 
         // Change current state
         public void MakeMove(Move move)
-            => CurrentColor = (Color) move.Id;
+            => _currentColor = (Color) move.Id;
 
-        // Render something acording to current state
+        // Render color according to current state
         public Canvas Render()
             => Fill(GetFiller());
 
@@ -33,17 +32,17 @@ namespace exampleSquare
         public object Clone()
             => new Game();
 
-        // Create simple square from emoji
+        // Create simple square from filler string
         private Canvas Fill(string filler)
-            => new Canvas(new string[2][]
+            => new Canvas(new []
             {
-                new string[2] { filler, filler },
-                new string[2] { filler, filler }
+                new [] { filler, filler },
+                new [] { filler, filler }
             });
 
         // Get emoji according to current state 
         private string GetFiller()
-            => DatabaseEmotes<Color>.TryGet(CurrentColor, out string emoji)
+            => DatabaseEmotes<Color>.TryGet(_currentColor, out var emoji)
                 ? emoji
                 : "(Not Found)";
     }
