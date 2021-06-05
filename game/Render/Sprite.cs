@@ -4,9 +4,6 @@ namespace game.Render
     {
         Robot,
         Tree,
-        Plant,
-        Wood,
-        BlackSquare,
         GreenSquare,
         BrownSquare,
         MoveUp,
