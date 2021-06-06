@@ -30,7 +30,7 @@ namespace game
             _player = new Player(_world);
         }
         
-        public List<Move> Moves => new List<Move>()
+        public IEnumerable<Move> Moves => new List<Move>()
         {
             new Move(DatabaseEmotes<Sprite>.Database[Sprite.MoveLeft], (int) PlayerAction.MoveLeft),
             new Move(DatabaseEmotes<Sprite>.Database[Sprite.MoveUp], (int) PlayerAction.MoveUp),

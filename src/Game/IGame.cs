@@ -9,13 +9,13 @@ namespace Kallias.Game
     /// <c>Clone</c> method should return instance of new game.
     /// </summary>
     public interface IGame : ICloneable
-    {   
+    {
         /// <summary>
         /// Get list of all possible moves in specified order,
         /// how the should be displayed.
         /// </summary>
-        List<Move> Moves { get; }
-        
+        IEnumerable<Move> Moves { get; }
+
         /// <summary>
         /// Attempt to make move.
         /// </summary>

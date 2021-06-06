@@ -13,7 +13,7 @@ namespace exampleSquare
         private Color _currentColor = Color.Default;
 
         // Create some basic moves
-        public List<Move> Moves => new List<Move>()
+        public IEnumerable<Move> Moves => new List<Move>()
         {
             new Move("🟥", (int) Color.Red),
             new Move("🟩", (int) Color.Green),
